@@ -7,21 +7,26 @@ def create_a_person():
     name = input("type name to create:")
     try:
         Contact.create(name)
+        print("New contact created!")
     except ValueError:
         print("Please type a valid name in order to create a person")
 
 def create_an_address():
     show_all_contacts()
-    email = input(f"type email address: ")
-    id = input(f"Type id number: ")
-
+    
     try:
-        id = int(id)
+        email = input(f"type email address: ")
+        id = int(input(f"Type id number: "))
+
+
+        if not Contact.contact_exists(id):
+            raise ValueError("Contact with specified ID does not exist.")
+        
         if not isinstance(email,str):
             raise ValueError("Email must be a string.")
         
         Address.create(email,id)
-        print("Address created successfully")
+        print("Email added!")
     except ValueError as e:
         print(f"Error: {e}")
     except Exception as e:
@@ -56,15 +61,16 @@ def find_by_id():
         print("Invalid input. Please enter a valid contact ID.")
 
 def address_by_id():
+    show_all_contacts()
     try:
         id= int(input("Enter the ID for the contact whose email you are looking for: "))
         emails = Address.get_email(id)
         if emails:
-            print(f"Contact found: {emails}")
+            print(f"Contact info found:")
             for email in emails:
                 print(email)
         else: 
-            print("Contact not found.")
+            print("No emails for contact. ")
     except ValueError:
         print("Invalid input. Please enter a valid contact ID.")
 
