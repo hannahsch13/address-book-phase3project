@@ -11,7 +11,7 @@ class Contact:
     #     self.name = name
 
     def __repr__( self ):
-        return f'id: {self.id} name: {self.name}'
+        return f'ID: {self.id} NAME: {self.name}'
     
     # def __repr__(self):
     #     return f"Contact(id={self._id}, name={self.name})"
@@ -29,7 +29,7 @@ class Contact:
     @classmethod
     def get_name (cls, name):
         sql = 'SELECT * FROM contacts where name= ?'
-        CURSOR.execute(sql, (name,))
+        CURSOR.execute(sql, (name.lower(),))
         result= CURSOR.fetchone()
         if result:
             return Contact.from_db(result)
@@ -69,22 +69,12 @@ class Contact:
         CONN.commit()
         return c.lastrowid
 
-    # def save(self, CURSOR):
-    #     if self.id is None:
-    #         sql = "INSERT INTO contacts (first_name, last_name) VALUES (?, ?)"
-    #         CURSOR.execute(sql, (self.first_name, self.last_name))
-    #         self.id = CURSOR.lastrowid    
-                
-    # def read_all():
-    #     sql = "select id, name from contacts"
-    #     rows = CURSOR.execute(sql)
-    #     ret = []
-    #     for (id, name) in rows:
-    #         person = Contact(name)
-    #         person._id = id
-    #         ret.append(person)
-            
-    #     return ret
+    @classmethod
+    def contact_exists(cls, id= None):
+        sql = "SELECT COUNT(*) FROM contacts where id = ?"
+        CURSOR.execute(sql, (id,))
+        result = CURSOR.fetchone()
+        return result[0]>0
     
         
     def update(name:str, id:int):

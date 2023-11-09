@@ -1,12 +1,13 @@
 from models.__init__ import CURSOR, CONN
 
+
 class Address:
     def __init__(self, email:str, person_id:int):
         self.email = email
         self.person_id = person_id
 
     def __repr__(self):
-        return f"Address(email={self.email}, person_id={self.person_id})"
+        return f"EMAIL: {self.email} ID: {self.person_id}"
        
     def __create_table__():
         sql = """create table addresses (
@@ -69,6 +70,7 @@ class Address:
         address_instance = Address(row_tuple[1], row_tuple[2])
         address_instance.id = row_tuple[0]
         return address_instance
+    
     
     def update_email(new_email:str):
         pass
