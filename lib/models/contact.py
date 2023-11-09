@@ -28,7 +28,7 @@ class Contact:
         
     @classmethod
     def get_name (cls, name):
-        sql = 'SELECT * FROM contacts where name= ?'
+        sql = 'SELECT * FROM contacts where LOWER(name) LIKE ?'
         CURSOR.execute(sql, (name.lower(),))
         result= CURSOR.fetchone()
         if result:
